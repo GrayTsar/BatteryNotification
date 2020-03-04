@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Battery Notification</string>
+
+    <string name="status">Status:</string>
+    <string name="health">Health:</string>
+    <string name="technology">Technology:</string>
+    <string name="voltage">Voltage:</string>
+    <string name="temperature">Temperature:</string>
+    <string name="estimated">Estimated Time Full:</string>
+    <string name="plugged">Plugged:</string>
+    <string name="capacity">Capacity:</string>
+</resources>
