@@ -1,52 +1,50 @@
 package com.graytsar.batterynotification
 
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.BatteryManager
 import android.os.Build
 import android.util.Log
 import android.view.View
-import android.widget.Toolbar
-import androidx.core.app.NotificationCompat
+import android.widget.Switch
 import androidx.lifecycle.MutableLiveData
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.android.synthetic.main.toolbar.view.*
 import java.util.concurrent.TimeUnit
 
-class ModelBattery(val tStatus:String,
-                   val tHealth:String,
-                   val tTechnology: String,
-                   val tVoltage:String,
-                   val tCapacity:String,
-                   val tTemperature:String,
-                   val tPlugged:String,
-                   val tEstimated:String):BroadcastReceiver() {
+@Entity(tableName = "ModelBattery")
+class ModelBattery(@PrimaryKey(autoGenerate = true) var id:Long):BroadcastReceiver() {
 
-    val valStatus = MutableLiveData<String>()
-    val valHealth = MutableLiveData<String>()
-    val valTechnology = MutableLiveData<String>()
-    val valVoltage = MutableLiveData<String>()
-    val valTemperature = MutableLiveData<String>()
-    val valEstimated = MutableLiveData<String>()
-    val valLevel = MutableLiveData<String>()
-    val valPlugged = MutableLiveData<String>()
-    val valCapacity = MutableLiveData<String>()
+    @Ignore val valStatus = MutableLiveData<String>()
+    @Ignore val valHealth = MutableLiveData<String>()
+    @Ignore val valTechnology = MutableLiveData<String>()
+    @Ignore val valVoltage = MutableLiveData<String>()
+    @Ignore val valTemperature = MutableLiveData<String>()
+    @Ignore val valEstimated = MutableLiveData<String>()
+    @Ignore val valLevel = MutableLiveData<String>()
+    @Ignore val valPlugged = MutableLiveData<String>()
+    @Ignore val valCapacity = MutableLiveData<String>()
 
-    var valMax = MutableLiveData<Int>(8)
-    var valMin = MutableLiveData<Int>(3)
-    var valSwitch = MutableLiveData<Boolean>(false)
+    @ColumnInfo(name = "valMax") var valMax = MutableLiveData<Int>(8)
+    @ColumnInfo(name = "valMin") var valMin = MutableLiveData<Int>(3)
+    @ColumnInfo(name = "valSwitch") var valSwitch = MutableLiveData<Boolean>(false)
 
+    constructor():this( 0)
 
     override fun onReceive(context: Context?, intent: Intent?) {
+        if(intent!!.action != Intent.ACTION_BATTERY_CHANGED && intent.action != Intent.ACTION_POWER_CONNECTED && intent.action != Intent.ACTION_POWER_DISCONNECTED){
+            return
+        }
+
         val batteryManager = context!!.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
         //val batteryLow = intent.getBooleanExtra(BatteryManager.EXTRA_BATTERY_LOW, false) //API 28
-        val heal = intent!!.getIntExtra(BatteryManager.EXTRA_HEALTH, 0)
+        val heal = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, 0)
         val plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0)
         val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, 0)
         val technology = intent.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
@@ -55,25 +53,25 @@ class ModelBattery(val tStatus:String,
 
         when(heal){
             BatteryManager.BATTERY_HEALTH_COLD -> {
-                valHealth.value = "Cold"
+                valHealth.value = " ${context.getString(R.string.healthCold)}"
             }
             BatteryManager.BATTERY_HEALTH_DEAD -> {
-                valHealth.value = "Dead"
+                valHealth.value = " ${context.getString(R.string.healthDead)}"
             }
             BatteryManager.BATTERY_HEALTH_GOOD -> {
-                valHealth.value = "Good"
+                valHealth.value = " ${context.getString(R.string.healthGood)}"
             }
             BatteryManager.BATTERY_HEALTH_OVERHEAT -> {
-                valHealth.value = "Overheat"
+                valHealth.value = " ${context.getString(R.string.healthOverheat)}"
             }
             BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> {
-                valHealth.value = "Overvoltage"
+                valHealth.value = " ${context.getString(R.string.healthOvervoltage)}"
             }
             BatteryManager.BATTERY_HEALTH_UNKNOWN -> {
-                valHealth.value = "Unknown"
+                valHealth.value = " ${context.getString(R.string.healthUnknown)}"
             }
             BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE -> {
-                valHealth.value = "Unspecified Failure"
+                valHealth.value = " ${context.getString(R.string.healthUnspecified)}"
             }
         }
 
@@ -81,72 +79,78 @@ class ModelBattery(val tStatus:String,
 
         val lev = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) / 100F
 
-        val ctx = context as MainActivity
-        ctx.constraintLayout.imageViewAnimLevelBattery.layoutParams.height = (ctx.constraintLayout.height * lev).toInt()
+        if(context is MainActivity){
+            val ctx = context as MainActivity
+            ctx.constraintLayout.waveView.progress = lev
 
-
-        when {
-            lev > valMax.value!! / 10f -> {
-                Log.d("DBG:", "max max $lev ${valMax.value}")
-                //ctx.pushNotify("Battery", "max max")
-            }
-            valMin.value!! / 10f > lev -> {
-                Log.d("DBG:", "min min $lev ${valMin.value}")
-                //ctx.pushNotify("Battery", "min min")
-            }
-            else -> {
-                Log.d("DBG:", "else $lev ${valMax.value}")
+            if(valSwitch.value == true){
+                when {
+                    lev >= valMax.value!! / 10f -> {
+                        //Log.d("DBG:", "max max $lev ${valMax.value}")
+                        if(status == BatteryManager.BATTERY_STATUS_CHARGING){
+                            ctx.pushNotify(context.getString(R.string.pushTitle), "${context.getString(R.string.pushMax)} ${valMax.value!! * 10}%")
+                        }
+                    }
+                    valMin.value!! / 10f > lev -> {
+                        //Log.d("DBG:", "min min $lev ${valMin.value}")
+                        ctx.pushNotify(context.getString(R.string.pushTitle), "${context.getString(R.string.pushMin)} ${valMin.value!! * 10}%")
+                    }
+                    else -> {
+                        //Log.d("DBG:", "else $lev ${valMax.value} ${valSwitch.value}")
+                    }
+                }
             }
         }
 
         when(plugged){
             BatteryManager.BATTERY_PLUGGED_AC -> {
-                valPlugged.value = "AC"
+                valPlugged.value = " ${context.getString(R.string.pluggedAC)}"
             }
             BatteryManager.BATTERY_PLUGGED_USB -> {
-                valPlugged.value = "USB"
+                valPlugged.value = " ${context.getString(R.string.pluggedUSB)}"
             }
             BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
-                valPlugged.value = "Wireless"
+                valPlugged.value = " ${context.getString(R.string.pluggedWireless)}"
             }
             else ->{
-                valPlugged.value = "None"
+                valPlugged.value = " ${context.getString(R.string.pluggedNone)}"
             }
         }
 
         when(status){
             BatteryManager.BATTERY_STATUS_CHARGING -> {
-                valStatus.value = "Charging"
+                valStatus.value = " ${context.getString(R.string.statusCharging)}"
             }
             BatteryManager.BATTERY_STATUS_DISCHARGING -> {
-                valStatus.value = "Discharging"
+                valStatus.value = " ${context.getString(R.string.statusDischarging)}"
             }
             BatteryManager.BATTERY_STATUS_FULL -> {
-                valStatus.value = "Full"
+                valStatus.value = " ${context.getString(R.string.statusFull)}"
             }
             BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
-                valStatus.value = "Not Charging"
+                valStatus.value = " ${context.getString(R.string.statusNotCharging)}"
             }
             BatteryManager.BATTERY_STATUS_UNKNOWN -> {
-                valStatus.value = "Unknown"
+                valStatus.value = " ${context.getString(R.string.statusUnknown)}"
             }
         }
 
-        valTechnology.value = technology
+        valTechnology.value = " $technology"
 
-        valTemperature.value = "${temperature / 10f} °C"
+        valTemperature.value = " ${(temperature / 10f)} ${context.getString(R.string.siCelsius)}"
 
-        valVoltage.value = "$voltage mV"
+        valVoltage.value = " $voltage ${context.getString(R.string.siMilliVolt)}"
 
         if (Build.VERSION.SDK_INT >= 28) {
             val ms = batteryManager.computeChargeTimeRemaining()
-            valEstimated.value =  String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(ms),
+            valEstimated.value =  String.format(" %02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(ms),
                 TimeUnit.MILLISECONDS.toMinutes(ms) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(ms)),
                 TimeUnit.MILLISECONDS.toSeconds(ms) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(ms)))
         }
 
         if(Build.VERSION.SDK_INT >= 21){
-           valCapacity.value = ((context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getLongProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) / 1000).toString() + " mAh"
+           valCapacity.value = " ${((context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getLongProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) / 1000)} ${context.getString(
+                          R.string.siMilliAmpereHours)}"
         }
 
         /*
@@ -159,7 +163,7 @@ class ModelBattery(val tStatus:String,
     }
 
     fun onSwitchClick(view: View){
-
+        valSwitch.value = (view as Switch).isChecked
     }
 
 }

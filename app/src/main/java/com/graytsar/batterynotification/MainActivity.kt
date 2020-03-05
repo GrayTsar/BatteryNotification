@@ -1,13 +1,12 @@
 package com.graytsar.batterynotification
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.drawable.Animatable2
-import android.graphics.drawable.AnimatedVectorDrawable
-import android.graphics.drawable.Drawable
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +14,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.room.Room
 import com.graytsar.batterynotification.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     private var notificationManager:NotificationManager? = null
     private val channelID:String = "com.graytsar.batterynotification.Alarm"
     private val notificationID:Int = 101
+    lateinit var model:ModelBattery
+
+    var db:BatteryDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,19 +33,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        createNotificationChannel(channelID, "Alarm", "Notify Battery Constraints")
+        db = Room.databaseBuilder(
+            applicationContext,
+            BatteryDatabase::class.java, "ModelBattery_Database"
+        ).allowMainThreadQueries().build()
 
-        val model = ModelBattery(
-            getString(R.string.status) + " ",
-            getString(R.string.health) + " ",
-            getString(R.string.technology) + " ",
-            getString(R.string.voltage) + " ",
-            getString(R.string.capacity),
-            getString(R.string.temperature) + " ",
-            getString(R.string.plugged) + " ",
-            getString(R.string.estimated) + " "
-        )
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        createNotificationChannel(channelID, "Alarm", "Notify Battery")
+
+        val array = db!!.batteryDao().getModel()
+
+        if(array.isNotEmpty()){
+            model = array[0]
+        } else {
+            model = ModelBattery(0)
+
+            model.id = db!!.batteryDao().insertModel(model)
+        }
 
         binding.lifecycleOwner = this
         binding.modelBattery = model
@@ -52,18 +59,11 @@ class MainActivity : AppCompatActivity() {
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
         intentFilter.addAction(Intent.ACTION_POWER_CONNECTED)
         intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED)
-        registerReceiver(model, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        registerReceiver(model, intentFilter)
 
         if (Build.VERSION.SDK_INT < 28) {
             tableRowEstimated.visibility = View.GONE
         }
-
-        (imageViewAnimLevelBattery.drawable as AnimatedVectorDrawable).registerAnimationCallback( object:Animatable2.AnimationCallback(){
-            override fun onAnimationEnd(drawable: Drawable?) {
-                (imageViewAnimLevelBattery.drawable as AnimatedVectorDrawable).start()
-            }
-        })
-        (imageViewAnimLevelBattery.drawable as AnimatedVectorDrawable).start()
 
         seekBar2.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -73,13 +73,9 @@ class MainActivity : AppCompatActivity() {
                     model.valMin.value = progress
                 }
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
             }
-
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
             }
         })
 
@@ -91,24 +87,30 @@ class MainActivity : AppCompatActivity() {
                     model.valMax.value = progress
                 }
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
             }
-
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
             }
         })
 
     }
 
     fun pushNotify(title:String, text:String){
+        val launchIntent = packageManager.getLaunchIntentForPackage("com.graytsar.batterynotification")
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+
+        //switch does not update with MutableLiveData change, remove this feature till i think of something different that works
+        //val deleteIntent = Intent(this, ModelBattery::class.java)
+        //deleteIntent.action = "notification_cancelled"
+        //val pendingDeleteIntent = PendingIntent.getBroadcast(this, 1, deleteIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+
         val notification = NotificationCompat.Builder(this, channelID).apply {
             setContentTitle(title)
             setContentText(text)
-            setSmallIcon(R.drawable.ic_launcher_background)
+            setSmallIcon(R.drawable.ic_battery_alert_black_24dp)
             setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+            setContentIntent(pendingIntent)
+            //setDeleteIntent(pendingDeleteIntent)
             setChannelId(channelID)
         }.build()
 
@@ -116,14 +118,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNotificationChannel(id: String, name: String, description: String) {
-        if(Build.VERSION.SDK_INT < 26 ){
+        if(Build.VERSION.SDK_INT < 26 )
             return
-        }
 
-        val importance = NotificationManager.IMPORTANCE_LOW
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(id, name, importance)
 
         channel.description = description
         notificationManager!!.createNotificationChannel(channel)
+    }
+
+    override fun onPause() {
+        db?.batteryDao()!!.updateModel(model)
+        super.onPause()
     }
 }

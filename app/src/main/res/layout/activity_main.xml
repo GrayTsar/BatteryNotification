@@ -23,30 +23,34 @@
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#00A2Ed"
+            android:background="#212121"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/include"
             tools:context=".MainActivity">
 
-            <ImageView
-                android:id="@+id/imageViewAnimLevelBattery"
+            <com.scwang.wave.MultiWaveHeader
+                android:id="@+id/waveView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:scaleType="fitXY"
-                android:tint="#388e3c"
+                android:scaleY="-1"
                 app:layout_constraintBottom_toBottomOf="parent"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/avd_anim3" />
-
-
+                app:layout_constraintTop_toTopOf="parent"
+                app:mwhCloseColor="@color/colorPrimary"
+                app:mwhColorAlpha="0.45"
+                app:mwhGradientAngle="45"
+                app:mwhProgress="0.7"
+                app:mwhStartColor="#628E38"
+                app:mwhVelocity="2"
+                app:mwhWaveHeight="40dp"
+                app:mwhWaves="MultiWave" />
 
             <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,18 +59,19 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <TextView
                             android:id="@+id/textLevel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@{modelBattery.valLevel}"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/colorBlueGrayLight"
                             android:textSize="24sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -78,14 +83,14 @@
                             style="@style/Widget.AppCompat.SeekBar.Discrete"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginEnd="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="8dp"
                             android:max="10"
                             android:progress="@{modelBattery.valMax}"
+                            android:progressTint="@color/colorBlueGrayLight"
+                            android:thumbTint="@color/colorBlueGrayLight"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/textView"
                             app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
                         <SeekBar
@@ -93,14 +98,14 @@
                             style="@style/Widget.AppCompat.SeekBar.Discrete"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
-                            android:layout_marginEnd="16dp"
+                            android:layout_marginEnd="8dp"
                             android:max="10"
                             android:progress="@{modelBattery.valMin}"
+                            android:progressTint="@color/colorBlueGrayLight"
+                            android:thumbTint="@color/colorBlueGrayLight"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/textView2"
                             app:layout_constraintTop_toBottomOf="@+id/textLevel" />
 
                         <TableLayout
@@ -123,9 +128,9 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="right"
-                                    android:text="@{modelBattery.tStatus}"
-                                    android:textColor="#FFFFFF"
+                                    android:gravity="end"
+                                    android:text="@string/status"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -134,7 +139,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@{modelBattery.valStatus}"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
                             </TableRow>
 
@@ -149,9 +154,9 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="right"
-                                    android:text="@{modelBattery.tHealth}"
-                                    android:textColor="#FFFFFF"
+                                    android:gravity="end"
+                                    android:text="@string/health"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -175,9 +180,9 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="right"
-                                    android:text="@{modelBattery.tTechnology}"
-                                    android:textColor="#FFFFFF"
+                                    android:gravity="end"
+                                    android:text="@string/technology"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -186,7 +191,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@{modelBattery.valTechnology}"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
                             </TableRow>
 
@@ -201,9 +206,9 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="right"
-                                    android:text="@{modelBattery.tVoltage}"
-                                    android:textColor="#FFFFFF"
+                                    android:gravity="end"
+                                    android:text="@string/voltage"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -212,7 +217,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@{modelBattery.valVoltage}"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
                             </TableRow>
 
@@ -227,9 +232,9 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="right"
-                                    android:text="@{modelBattery.tCapacity}"
-                                    android:textColor="#FFFFFF"
+                                    android:gravity="end"
+                                    android:text="@string/capacity"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -238,7 +243,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@{modelBattery.valCapacity}"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
                             </TableRow>
 
@@ -253,9 +258,9 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="right"
-                                    android:text="@{modelBattery.tTemperature}"
-                                    android:textColor="#FFFFFF"
+                                    android:gravity="end"
+                                    android:text="@string/temperature"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -264,7 +269,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@{modelBattery.valTemperature}"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
                             </TableRow>
 
@@ -279,9 +284,9 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="right"
-                                    android:text="@{modelBattery.tPlugged}"
-                                    android:textColor="#FFFFFF"
+                                    android:gravity="end"
+                                    android:text="@string/plugged"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -290,7 +295,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@{modelBattery.valPlugged}"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
                             </TableRow>
 
@@ -307,9 +312,9 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="right"
-                                    android:text="@{modelBattery.tEstimated}"
-                                    android:textColor="#FFFFFF"
+                                    android:gravity="center|end"
+                                    android:text="@string/estimated"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -318,25 +323,50 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="@{modelBattery.valEstimated}"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/colorBlueGrayLight"
                                     android:textSize="18sp" />
                             </TableRow>
-
                         </TableLayout>
 
                         <Switch
                             android:id="@+id/switch2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="90dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="8dp"
                             android:checked="@{modelBattery.valSwitch}"
                             android:onClick="@{modelBattery::onSwitchClick}"
-                            android:text="Start  "
+                            android:text="@string/switchStart"
+                            android:textColor="@color/colorBlueGrayLight"
+                            android:textSize="18sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/seekBar3" />
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="13dp"
+                            android:text="@string/textMax"
+                            android:textColor="@color/colorBlueGrayLight"
+                            android:textSize="18sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/textMin"
+                            android:textSize="18sp"
+                            android:textColor="@color/colorBlueGrayLight"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textLevel" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>

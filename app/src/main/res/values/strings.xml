@@ -9,4 +9,30 @@
     <string name="estimated">Estimated Time Full:</string>
     <string name="plugged">Plugged:</string>
     <string name="capacity">Capacity:</string>
+
+    <string name="healthCold">Cold</string>
+    <string name="healthDead">Dead</string>
+    <string name="healthGood">Good</string>
+    <string name="healthOverheat">Overheat</string>
+    <string name="healthUnspecified">Unspecified Failure</string>
+    <string name="healthUnknown">Unknown</string>
+    <string name="healthOvervoltage">Overvoltage</string>
+    <string name="pluggedAC">AC</string>
+    <string name="pluggedUSB">USB</string>
+    <string name="pluggedWireless">Wireless</string>
+    <string name="pluggedNone">None</string>
+    <string name="statusCharging">Charging</string>
+    <string name="statusDischarging">Discharging</string>
+    <string name="statusFull">Full</string>
+    <string name="statusNotCharging">Not Charging</string>
+    <string name="statusUnknown">Unknown</string>
+    <string name="siCelsius">°C</string>
+    <string name="siMilliVolt">mV</string>
+    <string name="siMilliAmpereHours">\mAh</string>
+    <string name="pushTitle">Battery</string>
+    <string name="pushMax">Upper limit reached</string>
+    <string name="pushMin">Lower limit reached</string>
+    <string name="switchStart">Start</string>
+    <string name="textMax">Max</string>
+    <string name="textMin">Min</string>
 </resources>
