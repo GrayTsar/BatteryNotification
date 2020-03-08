@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">аккумулятор оповещение</string>
+
+    <string name="status">статус:</string>
+    <string name="health">здоровье:</string>
+    <string name="technology">технология:</string>
+    <string name="voltage">вольт:</string>
+    <string name="temperature">температура:</string>
+    <string name="estimated">Расчетное время полное:</string>
+    <string name="plugged">Подсоединён:</string>
+    <string name="capacity">производственная мощность:</string>
+
+    <string name="healthCold">Холодный</string>
+    <string name="healthDead">сел</string>
+    <string name="healthGood">хороший</string>
+    <string name="healthOverheat">перегрет</string>
+    <string name="healthUnspecified">Неуказанный сбой</string>
+    <string name="healthUnknown">неизвестный</string>
+    <string name="healthOvervoltage">перенапряжение</string>
+    <string name="pluggedAC">AC</string>
+    <string name="pluggedUSB">USB</string>
+    <string name="pluggedWireless">беспроводной</string>
+    <string name="pluggedNone">ничего</string>
+    <string name="statusCharging">Заряжается</string>
+    <string name="statusDischarging">Разряжается</string>
+    <string name="statusFull">полный</string>
+    <string name="statusNotCharging">Не заряжается</string>
+    <string name="statusUnknown">неизвестный</string>
+    <string name="siCelsius">°C</string>
+    <string name="siMilliVolt">mV</string>
+    <string name="siMilliAmpereHours">mAh</string>
+    <string name="pushTitle">аккумулятор</string>
+    <string name="pushMax">Верхний предел достигнут</string>
+    <string name="pushMin">Нижний предел достигнут</string>
+    <string name="switchStart">старт</string>
+    <string name="textMax">Макс.</string>
+    <string name="textMin">мин.</string>
+</resources>

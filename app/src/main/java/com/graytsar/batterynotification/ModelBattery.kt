@@ -93,7 +93,12 @@ class ModelBattery(@PrimaryKey(autoGenerate = true) var id:Long):BroadcastReceiv
                     }
                     valMin.value!! / 10f > lev -> {
                         //Log.d("DBG:", "min min $lev ${valMin.value}")
-                        ctx.pushNotify(context.getString(R.string.pushTitle), "${context.getString(R.string.pushMin)} ${valMin.value!! * 10}%")
+                        if(status != BatteryManager.BATTERY_STATUS_CHARGING) {
+                            ctx.pushNotify(
+                                context.getString(R.string.pushTitle),
+                                "${context.getString(R.string.pushMin)} ${valMin.value!! * 10}%"
+                            )
+                        }
                     }
                     else -> {
                         //Log.d("DBG:", "else $lev ${valMax.value} ${valSwitch.value}")

@@ -7,8 +7,8 @@
     <string name="technology">Technologie:</string>
     <string name="voltage">Volt:</string>
     <string name="temperature">Temperatur:</string>
-    <string name="estimated">Geschätzt bis voll:</string>
-    <string name="plugged">Eingesteckt:</string>
+    <string name="estimated">Aufgeladen in:</string>
+    <string name="plugged">Angeschlossen:</string>
     <string name="capacity">Kapazität:</string>
 
     <string name="healthCold">Kalt</string>
@@ -21,7 +21,7 @@
     <string name="pluggedAC">AC</string>
     <string name="pluggedUSB">USB</string>
     <string name="pluggedWireless">Kabellos</string>
-    <string name="pluggedNone">Nichts</string>
+    <string name="pluggedNone">Nein</string>
     <string name="statusCharging">Aufladen</string>
     <string name="statusDischarging">Entladen</string>
     <string name="statusFull">Voll</string>
@@ -30,7 +30,7 @@
     <string name="siCelsius">°C</string>
     <string name="siMilliVolt">mV</string>
     <string name="siMilliAmpereHours">mAh</string>
-    <string name="pushTitle">Batterie</string>
+    <string name="pushTitle">Akku</string>
     <string name="pushMax">Oberes Limit erreicht</string>
     <string name="pushMin">Unteres Limit erreicht</string>
     <string name="switchStart">Start</string>
