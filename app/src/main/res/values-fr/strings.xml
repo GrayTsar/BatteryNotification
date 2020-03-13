@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">notification de batterie</string>
+
+    <string name="status">statut:</string>
+    <string name="health">la santé:</string>
+    <string name="technology">la technologie:</string>
+    <string name="voltage">volts:</string>
+    <string name="temperature">la température:</string>
+    <string name="estimated">chargé dans:</string>
+    <string name="plugged">connecté:</string>
+    <string name="capacity">capacité:</string>
+
+    <string name="healthCold">froid</string>
+    <string name="healthDead">mort</string>
+    <string name="healthGood">bon</string>
+    <string name="healthOverheat">surchauffé</string>
+    <string name="healthUnspecified">échec non spécifié</string>
+    <string name="healthUnknown">inconnu</string>
+    <string name="healthOvervoltage">surtension</string>
+    <string name="pluggedAC">AC</string>
+    <string name="pluggedUSB">USB</string>
+    <string name="pluggedWireless">sans fil</string>
+    <string name="pluggedNone">aucun</string>
+    <string name="statusCharging">charge</string>
+    <string name="statusDischarging">décharge</string>
+    <string name="statusFull">complet</string>
+    <string name="statusNotCharging">ne charge pas</string>
+    <string name="statusUnknown">inconnu</string>
+    <string name="siCelsius">°C</string>
+    <string name="siMilliVolt">mV</string>
+    <string name="siMilliAmpereHours">mAh</string>
+    <string name="pushTitle">batterie</string>
+    <string name="pushMax">limite supérieure atteinte</string>
+    <string name="pushMin">limite inférieure atteinte</string>
+    <string name="switchStart">start</string>
+    <string name="textMax">max</string>
+    <string name="textMin">min</string>
+</resources>

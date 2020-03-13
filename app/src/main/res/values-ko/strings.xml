@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">배터리 알림</string>
+
+    <string name="status">상태:</string>
+    <string name="health">건강:</string>
+    <string name="technology">기술:</string>
+    <string name="voltage">전압:</string>
+    <string name="temperature">온도:</string>
+    <string name="estimated">가득 찰 때까지의 예상 시간:</string>
+    <string name="plugged">연결됨:</string>
+    <string name="capacity">용량:</string>
+
+    <string name="healthCold">춥다</string>
+    <string name="healthDead">배터리가 다 되었다</string>
+    <string name="healthGood">좋음</string>
+    <string name="healthOverheat">과열됨</string>
+    <string name="healthUnspecified">지정되지 않은 고장</string>
+    <string name="healthUnknown">알 수 없는</string>
+    <string name="healthOvervoltage">과전압</string>
+    <string name="pluggedAC">AC</string>
+    <string name="pluggedUSB">USB</string>
+    <string name="pluggedWireless">무선</string>
+    <string name="pluggedNone">없음</string>
+    <string name="statusCharging">충전하는</string>
+    <string name="statusDischarging">방전하는</string>
+    <string name="statusFull">완전</string>
+    <string name="statusNotCharging">충전 안 함</string>
+    <string name="statusUnknown">알 수 없는</string>
+    <string name="siCelsius">°C</string>
+    <string name="siMilliVolt">mV</string>
+    <string name="siMilliAmpereHours">mAh</string>
+    <string name="pushTitle">배터리</string>
+    <string name="pushMax">상한 도달</string>
+    <string name="pushMin">하한 도달</string>
+    <string name="switchStart">시작</string>
+    <string name="textMax">최대</string>
+    <string name="textMin">최소</string>
+</resources>
