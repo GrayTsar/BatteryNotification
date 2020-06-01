@@ -82,6 +82,7 @@ class ModelBattery(@PrimaryKey(autoGenerate = true) var id:Long):BroadcastReceiv
         if(context is MainActivity){
             val ctx = context as MainActivity
             ctx.constraintLayout.waveView.progress = lev
+            ctx.constraintLayout.waveView.waveHeight = (40 * lev).toInt()
 
             if(valSwitch.value == true){
                 when {
