@@ -1,6 +1,6 @@
 package com.graytsar.batterynotification
 
-import android.app.Notification
+
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -12,65 +12,75 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.databinding.DataBindingUtil
 import androidx.room.Room
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.graytsar.batterynotification.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
-
+import com.scwang.wave.MultiWaveHeader
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding:ActivityMainBinding
+    val viewModelMain by viewModels<ViewModelMain>()
+
+    private lateinit var waveView:MultiWaveHeader
+
     private var notificationManager:NotificationManager? = null
     private val channelID:String = "com.graytsar.batterynotification.Alarm"
     private val notificationID:Int = 101
-    lateinit var model:ModelBattery
 
+    lateinit var model:ModelBattery
     var db:BatteryDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.viewModel = viewModelMain
+        binding.lifecycleOwner = this
+
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        waveView = binding.waveView
+
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        createNotificationChannel(channelID, "Alarm", "Notify Battery")
 
         db = Room.databaseBuilder(
             applicationContext,
             BatteryDatabase::class.java, "ModelBattery_Database"
         ).allowMainThreadQueries().build()
 
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        createNotificationChannel(channelID, "Alarm", "Notify Battery")
-
         val array = db!!.batteryDao().getModel()
-
         if(array.isNotEmpty()){
             model = array[0]
         } else {
             model = ModelBattery(0)
-
             model.id = db!!.batteryDao().insertModel(model)
         }
 
-        binding.lifecycleOwner = this
-        binding.modelBattery = model
+        viewModelMain.max.value = model.valMax
+        viewModelMain.min.value = model.valMin
+        viewModelMain.start.value = model.valSwitch
 
         //https://developer.android.com/reference/android/content/Intent#standard-broadcast-actions
         val intentFilter = IntentFilter()
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
         intentFilter.addAction(Intent.ACTION_POWER_CONNECTED)
         intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED)
-        registerReceiver(model, intentFilter)
+        registerReceiver(BatteryReceiver(model), intentFilter)
 
         if (Build.VERSION.SDK_INT < 28) {
-            tableRowEstimated.visibility = View.GONE
+            binding.tableRowEstimated.visibility = View.GONE
         }
 
-        seekBar2.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+        binding.seekBarMax.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                model.valMax.value = progress
+                model.valMax = progress
 
-                if(model.valMax.value!! < model.valMin.value!!){
-                    model.valMin.value = progress
+                if(model.valMax < model.valMin){
+                    model.valMin = progress
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -79,12 +89,12 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        seekBar3.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+        binding.seekBarMin.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                model.valMin.value = progress
+                model.valMin = progress
 
-                if(model.valMin.value!! > model.valMax.value!!){
-                    model.valMax.value = progress
+                if(model.valMin > model.valMax){
+                    model.valMax = progress
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -93,6 +103,29 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        viewModelMain.waveViewProgress.observe(this, androidx.lifecycle.Observer {
+            waveView.progress = it
+        })
+
+        viewModelMain.waveViewWaveHeight.observe(this, androidx.lifecycle.Observer {
+            waveView.waveHeight = it
+        })
+
+        viewModelMain.max.observe(this, androidx.lifecycle.Observer {
+            model.valMax = it
+        })
+
+        viewModelMain.min.observe(this, androidx.lifecycle.Observer {
+            model.valMin = it
+        })
+
+        viewModelMain.start.observe(this, androidx.lifecycle.Observer {
+            model.valSwitch = it
+        })
+
+        binding.switchStart.setOnClickListener { view ->
+            viewModelMain.start.value = (view as SwitchMaterial).isChecked
+        }
     }
 
     fun pushNotify(title:String, text:String){

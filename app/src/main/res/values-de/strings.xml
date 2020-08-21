@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Akku Benachrichtigung</string>
+    <string name="app_name">Akku Alarm</string>
 
     <string name="status">Status:</string>
     <string name="health">Gesundheit:</string>
