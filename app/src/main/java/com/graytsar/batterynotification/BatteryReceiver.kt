@@ -7,7 +7,7 @@ import android.os.BatteryManager
 import android.os.Build
 import java.util.concurrent.TimeUnit
 
-class BatteryReceiver(val model:ModelBattery):BroadcastReceiver() {
+class BatteryReceiver(private val model:ModelBattery):BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if(intent == null || context == null){

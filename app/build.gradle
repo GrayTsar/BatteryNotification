@@ -52,7 +52,7 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.1.0"
 
     implementation 'com.google.android.material:material:1.2.0'
-    implementation 'com.android.support.constraint:constraint-layout:2.0.0-rc1'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.0'
 
 
     implementation "androidx.work:work-runtime:2.4.0"
