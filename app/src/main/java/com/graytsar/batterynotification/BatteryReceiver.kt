@@ -7,7 +7,7 @@ import android.os.BatteryManager
 import android.os.Build
 import java.util.concurrent.TimeUnit
 
-class BatteryReceiver(private val model:ModelBattery):BroadcastReceiver() {
+class BatteryReceiver:BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if(intent == null || context == null){
@@ -61,20 +61,24 @@ class BatteryReceiver(private val model:ModelBattery):BroadcastReceiver() {
                 viewModelMain.waveViewProgress.value = lev
                 viewModelMain.waveViewWaveHeight.value = (40 * lev).toInt()
 
-                if(model.valSwitch){
+                val start = viewModelMain.start.value!!
+                val max = viewModelMain.max.value!!
+                val min = viewModelMain.min.value!!
+
+                if(start){
                     when {
-                        lev >= model.valMax / 10f -> {
+                        lev >= max / 10f -> {
                             //Log.d("DBG:", "max max $lev ${valMax.value}")
                             if(status == BatteryManager.BATTERY_STATUS_CHARGING){
-                                context.pushNotify(context.getString(R.string.pushTitle), "${context.getString(R.string.pushMax)} ${model.valMax * 10}%")
+                                context.pushNotify(context.getString(R.string.pushTitle), "${context.getString(R.string.pushMax)} ${max * 10}%")
                             }
                         }
-                        model.valMin / 10f > lev -> {
+                        min / 10f > lev -> {
                             //Log.d("DBG:", "min min $lev ${valMin.value}")
                             if(status != BatteryManager.BATTERY_STATUS_CHARGING) {
                                 context.pushNotify(
                                     context.getString(R.string.pushTitle),
-                                    "${context.getString(R.string.pushMin)} ${model.valMin * 10}%"
+                                    "${context.getString(R.string.pushMin)} ${min * 10}%"
                                 )
                             }
                         }

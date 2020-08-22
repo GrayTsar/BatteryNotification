@@ -10,6 +10,7 @@ import android.content.IntentFilter
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import androidx.activity.viewModels
@@ -64,12 +65,26 @@ class MainActivity : AppCompatActivity() {
         viewModelMain.min.value = model.valMin
         viewModelMain.start.value = model.valSwitch
 
+
+
         //https://developer.android.com/reference/android/content/Intent#standard-broadcast-actions
         val intentFilter = IntentFilter()
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
         intentFilter.addAction(Intent.ACTION_POWER_CONNECTED)
         intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED)
-        registerReceiver(BatteryReceiver(model), intentFilter)
+        registerReceiver(BatteryReceiver(), intentFilter)
+
+        /*
+        val batteryReceiver = BatteryReceiver
+        if(batteryReceiver.isRegistered){
+            Log.d("DBG", "exists")
+        } else {
+            registerReceiver(batteryReceiver, intentFilter)
+            Log.d("DBG", "no")
+        }
+
+         */
+
 
         if (Build.VERSION.SDK_INT < 28) {
             binding.tableRowEstimated.visibility = View.GONE
@@ -77,10 +92,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.seekBarMax.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                model.valMax = progress
+                viewModelMain.max.value = progress
 
-                if(model.valMax < model.valMin){
-                    model.valMin = progress
+                if(viewModelMain.max.value!! < viewModelMain.min.value!!){
+                    viewModelMain.min.value = progress
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -91,10 +106,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.seekBarMin.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                model.valMin = progress
+                viewModelMain.min.value = progress
 
-                if(model.valMin > model.valMax){
-                    model.valMax = progress
+                if(viewModelMain.min.value!! > viewModelMain.min.value!!){
+                    viewModelMain.max.value = progress
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
