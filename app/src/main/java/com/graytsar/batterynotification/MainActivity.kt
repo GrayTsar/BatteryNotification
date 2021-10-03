@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.RingtoneManager
+import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -145,7 +146,14 @@ class MainActivity : AppCompatActivity() {
 
     fun pushNotify(title:String, text:String){
         val launchIntent = packageManager.getLaunchIntentForPackage("com.graytsar.batterynotification")
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+
+        val pendingIntent: PendingIntent = if(Build.VERSION.SDK_INT >= 23) {
+            PendingIntent.getActivity(this,0, launchIntent,PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT)
+        } else {
+            PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+        }
+
+
 
         //switch does not update with MutableLiveData change, remove this feature till i think of something different that works
         //val deleteIntent = Intent(this, ModelBattery::class.java)
