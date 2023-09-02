@@ -5,14 +5,14 @@ import androidx.room.*
 @Dao
 interface BatteryDao {
     @Insert
-    fun insertModel(battery:ModelBattery):Long
+    fun insertModel(battery: BatteryEntity): Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateModel(battery:ModelBattery)
+    fun updateModel(battery: BatteryEntity)
 
     @Delete
-    fun deleteModel(battery: ModelBattery)
+    fun deleteModel(battery: BatteryEntity)
 
-    @Query("SELECT * FROM ModelBattery")
-    fun getModel():Array<ModelBattery>
+    @Query("SELECT * FROM alarm")
+    fun getModel(): BatteryEntity?
 }

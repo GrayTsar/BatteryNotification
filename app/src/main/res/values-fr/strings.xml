@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">notification de batterie</string>
 
+    <string name="all_notification">Notification</string>
+
+    <string name="notification_permission_rationale">La aplicación utiliza Notificaciones para avisarte cuando la batería está cargada.</string>
+
     <string name="status">statut:</string>
     <string name="health">la santé:</string>
     <string name="technology">la technologie:</string>

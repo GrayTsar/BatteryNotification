@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">Akku Alarm</string>
 
+    <string name="all_notification">Notification</string>
+
+    <string name="notification_permission_rationale">App benachrichtigt dich wenn der Akkustand erreicht ist.</string>
+
     <string name="status">Status:</string>
     <string name="health">Gesundheit:</string>
     <string name="technology">Technologie:</string>

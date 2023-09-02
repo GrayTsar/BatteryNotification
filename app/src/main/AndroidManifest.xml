@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.graytsar.batterynotification">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission
+        android:name="com.google.android.gms.permission.AD_ID"
+        tools:node="remove" />
 
     <application
+        android:name=".AlarmApplication"
         android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@drawable/ic_app_rectangle"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_app_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:fullBackupContent="false"
+        android:theme="@style/AppTheme"
+        tools:targetApi="s">
         <activity
-            android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:exported="true">
+            android:name=".AlarmActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,12 +29,13 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".BatteryReceiver" android:exported="false">
+        <receiver
+            android:name=".BatteryReceiver"
+            android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.BATTERY_LOW"/>
-                <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.BATTERY_OKAY" />
             </intent-filter>
         </receiver>
     </application>
-
 </manifest>

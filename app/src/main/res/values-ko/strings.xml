@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">배터리 알림</string>
 
+    <string name="all_notification">알림</string>
+
+    <string name="notification_permission_rationale">앱은 알림을 사용하여 배터리가 충전되면 알려줍니다.</string>
+
     <string name="status">상태:</string>
     <string name="health">건강:</string>
     <string name="technology">기술:</string>

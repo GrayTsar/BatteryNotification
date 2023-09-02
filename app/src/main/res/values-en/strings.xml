@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">Battery Notification</string>
 
+    <string name="all_notification">Notification</string>
+
+    <string name="notification_permission_rationale">App uses Notifications to notify you when the battery is charged.</string>
+
     <string name="status">Status:</string>
     <string name="health">Health:</string>
     <string name="technology">Technology:</string>

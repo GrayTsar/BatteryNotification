@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">аккумулятор оповещение</string>
 
+    <string name="all_notification">Уведомление</string>
+
+    <string name="notification_permission_rationale">Приложение использует уведомления для оповещения о заряде аккумулятора.</string>
+
     <string name="status">статус:</string>
     <string name="health">здоровье:</string>
     <string name="technology">технология:</string>

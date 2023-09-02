@@ -1,377 +1,383 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.graytsar.batterynotification.ViewModelMain" />
-    </data>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_primary">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/waveView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleY="-1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:mwhCloseColor="@color/primary"
+        app:mwhColorAlpha="0.45"
+        app:mwhGradientAngle="45"
+        app:mwhProgress="1"
+        app:mwhStartColor="#628E38"
+        app:mwhVelocity="2"
+        app:mwhWaveHeight="40dp"
+        app:mwhWaves="MultiWave" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        tools:context=".AlarmActivity">
 
-        <include
-            layout="@layout/toolbar"
-            android:id="@+id/include"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+        <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#212121"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include"
-            tools:context=".MainActivity">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.scwang.wave.MultiWaveHeader
-                android:id="@+id/waveView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleY="-1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:mwhCloseColor="@color/colorPrimary"
-                app:mwhColorAlpha="0.45"
-                app:mwhGradientAngle="45"
-                app:mwhProgress="1"
-                app:mwhStartColor="#628E38"
-                app:mwhVelocity="2"
-                app:mwhWaveHeight="40dp"
-                app:mwhWaves="MultiWave"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <ScrollView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <TableLayout
+                        android:id="@+id/tableLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <TextView
-                            android:id="@+id/textLevel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@{viewModel.level}"
-                            android:textColor="@color/colorBlueGrayLight"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/seekBarMax" />
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
 
-                        <SeekBar
-                            android:id="@+id/seekBarMax"
-                            style="@style/Widget.AppCompat.SeekBar.Discrete"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="8dp"
-                            android:max="10"
-                            android:progress="@{viewModel.max}"
-                            android:progressTint="@color/colorBlueGrayLight"
-                            android:thumbTint="@color/colorBlueGrayLight"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/textMax"
-                            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textStatus"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/status"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary" />
 
-                        <SeekBar
-                            android:id="@+id/seekBarMin"
-                            style="@style/Widget.AppCompat.SeekBar.Discrete"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:max="10"
-                            android:progress="@{viewModel.min}"
-                            android:progressTint="@color/colorBlueGrayLight"
-                            android:thumbTint="@color/colorBlueGrayLight"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/textMin"
-                            app:layout_constraintTop_toBottomOf="@+id/textLevel" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/valStatus"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="0dp"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary"
+                                tools:text="Discharging" />
+                        </TableRow>
 
-                        <TableLayout
-                            android:id="@+id/tableLayout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingTop="8dp">
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center">
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textHealth"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/health"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary" />
 
-                                <TextView
-                                    android:id="@+id/textStatus"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:text="@string/status"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/valHealth"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="0dp"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary"
+                                tools:text="Good" />
+                        </TableRow>
 
-                                <TextView
-                                    android:id="@+id/valStatus"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="@{viewModel.status}"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
-                            </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingTop="8dp">
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:paddingTop="8dp">
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textTechnology"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/technology"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary" />
 
-                                <TextView
-                                    android:id="@+id/textHealth"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:text="@string/health"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/valTechnology"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="0dp"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary"
+                                tools:text="Li-Poly" />
+                        </TableRow>
 
-                                <TextView
-                                    android:id="@+id/valHealth"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="@{viewModel.health}"
-                                    android:textColor="#FFFFFF"
-                                    android:textSize="18sp" />
-                            </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingTop="8dp">
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:paddingTop="8dp">
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textVoltage"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/voltage"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary" />
 
-                                <TextView
-                                    android:id="@+id/textTechnology"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:text="@string/technology"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/valVoltage"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="0dp"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary"
+                                tools:text="4061 mV" />
+                        </TableRow>
 
-                                <TextView
-                                    android:id="@+id/valTechnology"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="@{viewModel.technology}"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
-                            </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingTop="8dp">
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:paddingTop="8dp">
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textCapacity"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/capacity"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary" />
 
-                                <TextView
-                                    android:id="@+id/textVoltage"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:text="@string/voltage"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/valCapacity"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="0dp"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary"
+                                tools:text="2998 mAh" />
+                        </TableRow>
 
-                                <TextView
-                                    android:id="@+id/valVoltage"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="@{viewModel.voltage}"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
-                            </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingTop="8dp">
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:paddingTop="8dp">
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textTemperature"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/temperature"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary" />
 
-                                <TextView
-                                    android:id="@+id/textCapacity"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:text="@string/capacity"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/valTemperature"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="0dp"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary"
+                                tools:text="29.0 °C" />
+                        </TableRow>
 
-                                <TextView
-                                    android:id="@+id/valCapacity"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="@{viewModel.capacity}"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
-                            </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingTop="8dp">
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:paddingTop="8dp">
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textPlugged"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/plugged"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary" />
 
-                                <TextView
-                                    android:id="@+id/textTemperature"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:text="@string/temperature"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/valPlugged"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="0dp"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary"
+                                tools:text="No" />
+                        </TableRow>
 
-                                <TextView
-                                    android:id="@+id/valTemperature"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="@{viewModel.temperature}"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
-                            </TableRow>
+                        <TableRow
+                            android:id="@+id/tableRowEstimated"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingTop="8dp"
+                            android:visibility="visible">
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:paddingTop="8dp">
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textEstimated"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center|end"
+                                android:text="@string/estimated"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary" />
 
-                                <TextView
-                                    android:id="@+id/textPlugged"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:text="@string/plugged"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/valEstimated"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="0dp"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="@color/text_primary"
+                                tools:text="00:00:00" />
+                        </TableRow>
+                    </TableLayout>
 
-                                <TextView
-                                    android:id="@+id/valPlugged"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="@{viewModel.plugged}"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
-                            </TableRow>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textMax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="13dp"
+                        android:text="@string/textMax"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:textColor="@color/text_primary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
-                            <TableRow
-                                android:id="@+id/tableRowEstimated"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:paddingTop="8dp"
-                                android:visibility="visible">
+                    <SeekBar
+                        android:id="@+id/seekBarMax"
+                        style="@style/Widget.AppCompat.SeekBar.Discrete"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:max="10"
+                        android:progressTint="@color/text_primary"
+                        android:thumbTint="@color/text_primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textMax"
+                        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
-                                <TextView
-                                    android:id="@+id/textEstimated"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="center|end"
-                                    android:text="@string/estimated"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
 
-                                <TextView
-                                    android:id="@+id/valEstimated"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="@{viewModel.estimated}"
-                                    android:textColor="@color/colorBlueGrayLight"
-                                    android:textSize="18sp" />
-                            </TableRow>
-                        </TableLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                        android:textColor="@color/text_primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seekBarMax"
+                        tools:text="74 %" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/switchStart"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="8dp"
-                            android:text="@string/switchStart"
-                            android:textColor="@color/colorBlueGrayLight"
-                            android:textSize="18sp"
-                            android:checked="@{viewModel.start}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/seekBarMin" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textMin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/textMin"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:textColor="@color/text_primary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textLevel" />
 
-                        <TextView
-                            android:id="@+id/textMax"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="13dp"
-                            android:text="@string/textMax"
-                            android:textColor="@color/colorBlueGrayLight"
-                            android:textSize="18sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+                    <SeekBar
+                        android:id="@+id/seekBarMin"
+                        style="@style/Widget.AppCompat.SeekBar.Discrete"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:max="10"
+                        android:progressTint="@color/text_primary"
+                        android:thumbTint="@color/text_primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textMin"
+                        app:layout_constraintTop_toBottomOf="@+id/textLevel" />
 
-                        <TextView
-                            android:id="@+id/textMin"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/textMin"
-                            android:textSize="18sp"
-                            android:textColor="@color/colorBlueGrayLight"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textLevel" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-            </ScrollView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/switchStart"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:textColor="@color/text_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seekBarMin"
+                        app:trackDecorationTint="@color/accent"
+                        tools:checked="true" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>
